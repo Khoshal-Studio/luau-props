@@ -41,7 +41,10 @@ export type object_base<T> = props_types.object_base<T>
     This function is used to make the user's life easier by providing a default get and set function for attributes.
 
     #### Examples
-    ```lua
+    ```luau
+    export type x<T, V, Y> = {
+        get : (current_value : T, ... : V) -> Y
+    }
     local attribute = module.mutable(0, module.easy_proxy, module.easy_proxy)
     print(attribute.get()) -- Returns 0, no transformation
     ```
@@ -97,7 +100,7 @@ end
     The signal passes the new value and the previous value as arguments to the connected functions.\
 
     #### Examples
-    ```lua
+    ```luau
     local attribute = module.mutable(0, module.easy_proxy, module.easy_proxy)
     print(attribute.get()) -- Returns 0, no transformation
     attribute.set(1) -- Changes the value to 1
@@ -179,11 +182,11 @@ end
     A function that sets the new value of the attribute.
 
     #### Examples
-    ```lua
+    ```luau
     local attribute, fire, set = module.immutable(0, module.easy_proxy)
-    print(attribute.get()) -- Returns 0, no transformation
+    print(attribute.get()) -- Returns 0
     set(1) -- Changes the value to 1
-    print(attribute.get()) -- Returns 1, no transformation
+    print(attribute.get()) -- Returns 1
     fire(2) -- Fires the signal with the new value 2 and the previous value 1
     ```
 ]=]
