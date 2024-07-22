@@ -194,6 +194,10 @@ module.immutable = function<T>(init_value : T, get_handler : user_get<T>?) : (im
     local current_value : T = init_value
     local restricted_signal: restricted_signal, fire: (...any) -> () = signal.restricted_signal.new()
 
+    local function fire_proxy(...: any): ()
+        fire(current_value, ...)
+    end
+    
     local function get_proxy(...: any): T
         return get(current_value, ...)
     end
@@ -207,7 +211,7 @@ module.immutable = function<T>(init_value : T, get_handler : user_get<T>?) : (im
         current_value = new_value
         
         if not silent then
-            fire(current_value, previous_value)
+            fire_proxy(current_value, previous_value)
         end
     end
 
@@ -216,8 +220,12 @@ module.immutable = function<T>(init_value : T, get_handler : user_get<T>?) : (im
         changed = restricted_signal
     }
 
-    return attribute, fire, set
+    return attribute, fire_proxy, set
 end
+
+----------------------------------------------------------------------------------------------------------------
+
+module.signal = signal
 
 ----------------------------------------------------------------------------------------------------------------
 
