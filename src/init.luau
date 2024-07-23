@@ -42,9 +42,6 @@ export type object_base<T> = props_types.object_base<T>
 
     #### Examples
     ```luau
-    export type x<T, V, Y> = {
-        get : (current_value : T, ... : V) -> Y
-    }
     local attribute = module.mutable(0, module.easy_proxy, module.easy_proxy)
     print(attribute.get()) -- Returns 0, no transformation
     ```
