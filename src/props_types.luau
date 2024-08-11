@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------------------
 
-local signal = require(script.Parent.signal)
+local signal = require(script.Parent.Parent:WaitForChild("signal"))
 
 -------------------------------------------------------------------------------------------
 
@@ -9,7 +9,7 @@ type restricted_signal = signal.restricted_signal
 
 -------------------------------------------------------------------------------------------
 
-export type get<T> = (current_value : T, ...any?) -> T
+export type get<T> = (...any?) -> T
 export type set<T> = (new_value : T, silent : boolean?, ...any?) -> ()
 
 export type user_get<T> = (current_value : T, ...any?) -> T
