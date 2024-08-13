@@ -37,7 +37,7 @@ local function new_prop<T>(init_value : T, get_handler : user_get<T>?, set_handl
     local current_value : T = init_value
 
     local prop_signal = signal()
-    local restricted_signal = prop_signal:GetRestricted()
+    local restricted_signal = prop_signal.Restricted
 
     local function get_proxy(...: any): T
         return get(current_value, ...)

@@ -6,8 +6,8 @@ local signal_types : nil = require(script:WaitForChild("signal_types"))
 
 export type connection = signal_types.connection
 export type signal = signal_types.signal
-export type internal_signal = signal_types.internal_signal
-export type internal_connection = signal_types.internal_connection
+type internal_signal = signal_types.internal_signal
+type internal_connection = signal_types.internal_connection
 export type fire<T> = signal_types.fire<T>
 export type restricted_signal = signal_types.restricted_signal
 
@@ -23,6 +23,8 @@ export type restricted_signal = signal_types.restricted_signal
 ]=]
 local function connection_new(signal: internal_signal, fn: (...any) -> ()) : connection
 
+    --[[----------------------------------------------------------------------]]--s
+
     local connection : internal_connection = nil
 
     --[[----------------------------------------------------------------------]]--
@@ -35,14 +37,14 @@ local function connection_new(signal: internal_signal, fn: (...any) -> ()) : con
         if self.signal.handler_list_head == self then
             self.signal.handler_list_head = self.next
         else
-            local prev : any = self.signal.handler_list_head
+            local prev : internal_connection? = self.signal.handler_list_head
 
-            while prev and prev._next ~= self do
-                prev = prev._next
+            while prev and prev.next ~= self do
+                prev = prev.next
             end
 
             if prev then
-                prev._next = self.next
+                prev.next = self.next
             end
         end
     end
@@ -178,20 +180,16 @@ local function signal_new() : signal
 
         return connection
     end
-
-    local function get_restricted(self : internal_signal) : restricted_signal
-        local restricted : restricted_signal = nil
-
-        restricted = {
-            Connect = connect,
-            DisconnectAll = disconnect_all,
-            Wait = wait,
-            Once = once
-        } :: any
-
-        return restricted
-    end
     
+    --[[----------------------------------------------------------------------]]--
+
+    local restricted = {
+        Connect = connect,
+        DisconnectAll = disconnect_all,
+        Wait = wait,
+        Once = once
+    }
+
     --[[----------------------------------------------------------------------]]--
 
     signal = {
@@ -202,9 +200,9 @@ local function signal_new() : signal
         Fire = fire,
         Wait = wait,
         Once = once,
-        GetRestricted = get_restricted
+        Restricted = restricted
     } :: any
-
+ 
 
     return (signal :: any) :: signal
 end 
