@@ -1,6 +1,8 @@
+--!strict
+
 -------------------------------------------------------------------------------------------
 
-local signal = require(script.Parent.Parent:WaitForChild("signal"))
+local signal = require(script.Parent:WaitForChild("signal"))
 
 -------------------------------------------------------------------------------------------
 
@@ -15,15 +17,17 @@ export type set<T> = (new_value : T, silent : boolean?, ...any?) -> ()
 export type user_get<T> = (current_value : T, ...any?) -> T
 export type user_set<T> = (new_value : T, ...any?) -> T
 
-export type immutable_attribute<T> = {
+export type immutable_prop<T> = {
     get : get<T>,
-    changed : restricted_signal
+    changed : restricted_signal,
 }
 
-export type mutable_attribute<T> = {
+export type prop<T> = {
     get : get<T>,
     set : set<T>,
-    changed : signal
+    changed : signal,
+
+    immutable : immutable_prop<T>,
 }
 
 export type object_base<T> = {
