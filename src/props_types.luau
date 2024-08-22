@@ -32,7 +32,10 @@ export type public_prop<T> =
     changed : restricted_signal,
 }
 
-export type middleware<T> = (value : T, ...any?) -> T
+export type middleware<T> = (value : T, ...any?) -> {
+    value : (T, ...any?) -> T,
+    cancel : boolean
+}
 
 export type middleware_obj<T> = 
 {
@@ -40,9 +43,11 @@ export type middleware_obj<T> =
         [number] : middleware<T>
     },
 
-    add : (middleware : <T>(value : T, ...any?) -> T) -> (),
-    remove :(middleware : <T>(value : T, ...any?) -> T) -> (),
+    add : (middleware : middleware<T>, index : number?) -> (),
+    remove : (index : number) -> (),
+
     clear : () -> (),
+
     apply : (value : T, ...any?) -> T,
 }
 

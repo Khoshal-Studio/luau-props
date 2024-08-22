@@ -37,17 +37,16 @@ export type middleware_init<T> = {
 local function new_middleware_obj<T>(list : {[number] : middleware<T>}?) : middleware_obj<T>
     local local_list = list or {}
 
-    local local_add = function<T>(middleware : middleware<T>)
-        table.insert(local_list, middleware)
+    local local_add = function<T>(middleware : middleware<T>, index : number?)
+        if index then
+            table.insert(local_list, index, middleware)
+        else
+            table.insert(local_list, middleware)
+        end
     end
 
-    local local_remove = function<T>(middleware : middleware<T>)
-        for index, value in ipairs(local_list) do
-            if value == middleware then
-                table.remove(local_list, index)
-                break
-            end
-        end
+    local local_remove = function<T>(index : number)
+        table.remove(local_list, index)
     end
     
     local local_clear = function()
@@ -58,7 +57,13 @@ local function new_middleware_obj<T>(list : {[number] : middleware<T>}?) : middl
         local current_value = value
         
         for _, middleware in ipairs(local_list) do
-            current_value = middleware(current_value, ...)
+            local result = middleware(current_value, ...)
+
+            if result.cancel then
+                break
+            end
+
+            current_value = result.value
         end
 
         return current_value
@@ -114,6 +119,7 @@ local function new_prop<T>(init_value : T, middleware : middleware_init<T>) : pr
         },
 
         changed = changed,
+        
         immutable = immutable,
         public = public
     }
