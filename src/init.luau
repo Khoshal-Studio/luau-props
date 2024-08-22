@@ -80,7 +80,7 @@ end
 
 ----------------------------------------------------------------------------------------------------------------
 
-local function new_prop<T>(init_value : T, middleware : middleware_init<T>) : prop<T>
+local function new_prop<T>(init_value : T, middleware : middleware_init<T>?) : prop<T>
     local current_value = init_value
 
     local get = function() : T
@@ -91,8 +91,8 @@ local function new_prop<T>(init_value : T, middleware : middleware_init<T>) : pr
         current_value = new_value
     end
 
-    local get_middleware_obj = new_middleware_obj(middleware.get)
-    local set_middleware_obj = new_middleware_obj(middleware.set)
+    local get_middleware_obj = new_middleware_obj(if middleware then middleware.get else nil)
+    local set_middleware_obj = new_middleware_obj(if middleware then middleware.set else nil)
 
     local changed = signal()
 
