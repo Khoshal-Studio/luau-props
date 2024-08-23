@@ -5,10 +5,10 @@
 local props_types : nil = require(script:WaitForChild("props_types"))
 local signal = require(script:WaitForChild("signal"))
 
+----------------------------------------------------------------------------------------------------------------
+
 type signal = signal.signal
 type restricted_signal = signal.restricted_signal
-
-----------------------------------------------------------------------------------------------------------------
 
 export type get<T> = props_types.get<T>
 export type set<T> = props_types.set<T>
