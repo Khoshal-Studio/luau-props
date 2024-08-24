@@ -84,6 +84,24 @@ end
 
 ----------------------------------------------------------------------------------------------------------------
 
+local function deep_clone<T>(value : T) : T
+    local value_type = typeof(value)
+
+    if value_type == "table" then
+        local new_table = {}
+
+        for key, x in value :: any do
+            new_table[key] = deep_clone(x)
+        end
+
+        return new_table :: any
+    end
+
+    return value
+end
+
+----------------------------------------------------------------------------------------------------------------
+
 local function new_prop<T>(init_value : T, middleware : middleware_init<T>?) : prop<T>
 
     local prop : prop<T> = nil
@@ -95,6 +113,11 @@ local function new_prop<T>(init_value : T, middleware : middleware_init<T>?) : p
 
     local get = function(... : any?) : T
         local value = prop.middleware.get.apply(current_value, ...)
+
+        if init_type == "table" then
+            return deep_clone(value)
+        end
+
         return value
     end
 
