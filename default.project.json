@@ -1,6 +1,9 @@
 {
     "name": "props",
     "tree": {
-        "$path": "src"
+        "$className": "DataModel",
+        "props" : {
+            "$path": "props"
+        }
     }
 }
