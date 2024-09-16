@@ -3,7 +3,7 @@
     "tree": {
         "$className": "DataModel",
         "props" : {
-            "$path": "props"
+            "$path": "src"
         }
     }
 }

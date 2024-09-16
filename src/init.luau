@@ -84,14 +84,14 @@ end
 
 ----------------------------------------------------------------------------------------------------------------
 
-local function deep_clone<T>(value : T) : T
+local function __deep_clone<T>(value : T) : T
     local value_type = typeof(value)
 
     if value_type == "table" then
         local new_table = {}
 
         for key, x in value :: any do
-            new_table[key] = deep_clone(x)
+            new_table[key] = __deep_clone(x)
         end
 
         return new_table :: any
@@ -114,9 +114,12 @@ local function new_prop<T>(init_value : T, middleware : middleware_init<T>?) : p
     local get = function(... : any?) : T
         local value = prop.middleware.get.apply(current_value, ...)
 
+        -- "no!" - @alliancecrusader
+        --[[
         if init_type == "table" then
             return deep_clone(value)
         end
+        ]]
 
         return value
     end
@@ -133,10 +136,10 @@ local function new_prop<T>(init_value : T, middleware : middleware_init<T>?) : p
             return
         end
 
-        local previous_value = current_value
+        -- local previous_value = current_value
         current_value = value
         
-        changed:Fire(current_value, previous_value)
+        changed:Fire(current_value--[[, previous_value]])
     end
 
     --[[----------------------------------------------------------------------]]--
