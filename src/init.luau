@@ -107,7 +107,7 @@ local function new_prop<T>(init_value : T, middleware : middleware_init<T>?, typ
 
     local current_value = init_value
     local changed = signal()
-    local typecheck = typecheck or false
+    local typecheck_toggle = typecheck or false
     local init_type = typeof(init_value)
 
     --[[----------------------------------------------------------------------]]--
@@ -126,7 +126,7 @@ local function new_prop<T>(init_value : T, middleware : middleware_init<T>?, typ
     end
 
     local set = function(new_value : T, ... : any?)
-        if typecheck and (typeof(new_value) ~= init_type) then
+        if typecheck_toggle and (typeof(new_value) ~= init_type) then
             warn("Invalid type for prop, expected: " .. init_type .. ", got: " .. typeof(new_value))
             return
         end
