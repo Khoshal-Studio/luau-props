@@ -30,8 +30,6 @@ export type typecheck<T> = types.typecheck<T>
 
 local signal_security_type = t.literal("base", "restricted", "immutable")
 
-----------------------------------------------------------------------------------------------------------------
-
 local function default_validator<T>(value): (boolean, string?)
     return true, "Default type validator, always returns true"
 end
