@@ -1,9 +1,9 @@
 {
     "name": "props",
     "tree": {
-        "$className": "DataModel",
-        "props" : {
-            "$path": "src"
-        }
-    }
+        "$path": "src"
+    },
+    "globIgnorePaths": [
+       "src/docs/**"
+    ]
 }
