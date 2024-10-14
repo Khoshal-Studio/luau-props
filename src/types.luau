@@ -13,9 +13,9 @@ type var_signal = signal | restricted_signal | immutable_signal
 
 -------------------------------------------------------------------------------------------
 
+export type table<K, V> = {[K] : V}
 export type list<V> = {[number] : V}
 export type dict<V> = {[string] : V}
-export type table<K, V> = {[K] : V}
 
 -------------------------------------------------------------------------------------------
 
@@ -69,31 +69,21 @@ export type prop_middleware_info<T> = {
     set: transformer_list<T>?,
 }
 
+export type basic_prop<T> = {
+    get: get<T>,
+    set: set<T>
+}
+
 export type prop<T> = {
     get: get<T>,
     set: set<T>,
 
     middleware: prop_middleware<T>,
 
-    signal_security: {
-        get: () -> signal_security,
-        set: (new_security: signal_security) -> (),
-    },
-
-    type_validator: {
-        get: () -> typecheck<T>,
-        set: (new_validator: typecheck<T>) -> (),
-    },
-
-    strict: {
-        get: () -> boolean,
-        set: (new_value: boolean) -> (),
-    },
-
-    type_name: {
-        get: () -> string,
-        set: (new_name: string) -> (),
-    },
+    signal_security: basic_prop<signal_security>,
+    type_validator: basic_prop<typecheck<T>>,
+    strict: basic_prop<boolean>,
+    type_name: basic_prop<string>,
 
     changed: signal | restricted_signal | immutable_signal, 
 
