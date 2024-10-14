@@ -30,7 +30,7 @@
 
 --[=[
     @prop changed var_signal
-    @within immutable_prop
+    @within public_prop
 
     A signal that fires when the property value changes.
 ]=]
