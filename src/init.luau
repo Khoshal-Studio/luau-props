@@ -11,8 +11,9 @@ local middleware = require(classes:WaitForChild("middleware"))
 
 ----------------------------------------------------------------------------------------------------------------
 
-type signal = signal.signal
-type restricted_signal = signal.restricted_signal
+export type signal = signal.signal
+export type restricted_signal = signal.restricted_signal
+export type immutable_signal = signal.immutable_signal
 export type get<T> = types.get<T>
 export type set<T> = types.set<T>
 export type immutable_prop<T> = types.immutable_prop<T>
@@ -30,8 +31,10 @@ export type typecheck<T> = types.typecheck<T>
 
 local signal_security_type = t.literal("base", "restricted", "immutable")
 
-local function default_validator<T>(value): (boolean, string?)
-    return true, "Default type validator, always returns true"
+local function default_validator<T>(inital_type: string): typecheck<T>
+    return function(value: T): (boolean, string?)
+        return typeof(value) == inital_type, "Expected type: " .. inital_type .. ", got: " .. typeof(value)
+    end
 end
 
 ----------------------------------------------------------------------------------------------------------------
@@ -44,7 +47,7 @@ local function new<T, init_type>(config: prop_setup<T>): prop<T>
     local current_value = config.init
     local changed = signal.new()
     local prop_type = config.type_name or typeof(current_value)
-    local type_validator = config.type_validator or default_validator :: any
+    local type_validator = config.type_validator or default_validator(prop_type) :: any
     local typestrict = config.typestrict or false
     local middleware_info = config.middleware
     local signal_security: signal_security = config.signal_security or "immutable"
