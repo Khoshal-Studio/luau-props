@@ -7,53 +7,53 @@
 ----------------------------------------------------------------------------------------------------------
 
 --[=[
-    @method add
+    @function add
     @within middleware
 
     @param transformer_arg transformer<T> | transformer_list<T>
-    @param index? number
+    @param index number?
 
-    Adds a transformer to the middleware list. If an index is provided, the transformer will be inserted at that index.
+    Adds a transformer to the middleware list. If the `index` argument is provided, the transformer will be inserted at that index.
     Alternatively, a list of transformers can be provided as the first argument to add multiple transformers at once.
 
     Index defaults to the end of the list.
 ]=]
 
 --[=[
-    @method remove
+    @function remove
     @within middleware
 
-    @param index? number
-    @param end_index? number
+    @param index number?
+    @param end_index number?
 
-    Removes a transformer from the middleware list. If an end_index is provided, all transformers from index to end_index will be removed.
+    Removes a transformer from the middleware list. If an `end_index` is provided, all transformers from `index` to `end_index` will be removed. `index` defaults to 1.
     If no arguments are provided, the transformer at the end of the list will be removed.
 ]=]
 
 --[=[
-    @method get
+    @function get
     @within middleware
 
-    @param index? number
+    @param index number?
 
     @return transformer<T> | transformer_list<T>
 
-    Returns the transformer at the specified index. If no index is provided, returns a list of all transformers.
+    Returns the transformer at the specified index. If the `index` argument is nil, returns a list of all transformers.
 ]=]
 
 --[=[
-    @method clear
+    @function clear
     @within middleware
 
     Clears all transformers from the middleware list.
 ]=]
 
 --[=[
-    @method transform
+    @function transform
     @within middleware
 
     @param value T
-    @param ... any
+    @param ... any?
 
     @return T
 
@@ -64,14 +64,14 @@
 ----------------------------------------------------------------------------------------------------------
 
 --[=[
-    @type transformer<T> (value: T, ...any?) -> (T, boolean?)
+    @type transformer (value: T, ...any?) -> (T, boolean?)
     @within middleware
 
     A function that transforms a value. Returns the transformed value and an optional boolean flag to stop the transformation process.
 ]=]
 
 --[=[
-    @type transformer_list<T> list<transformer<T>>
+    @type transformer_list list<transformer<T>>
     @within middleware
 
     A list of transformers that can be applied to a value.

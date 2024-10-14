@@ -10,7 +10,7 @@
 ----------------------------------------------------------------------------------------------------------
 
 --[=[
-    @method get
+    @function get
     @within basic_prop
 
     @param ... any
@@ -20,13 +20,25 @@
 ]=]
 
 --[=[
-    @method set
+    @function set
     @within basic_prop
 
     @param new_value T
     @param ... any
 
     Sets the value of the property to the new value.
+]=]
+
+----------------------------------------------------------------------------------------------------------
+
+--[=[
+    @interface basic_prop<T>
+    @within basic_prop
+
+    @field get get<T>
+    @field set set<T>
+
+    A basic interface of a `prop` object that can be changed after initialization. Contains a `get` and a `set` accessor.
 ]=]
 
 ----------------------------------------------------------------------------------------------------------

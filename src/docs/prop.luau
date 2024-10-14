@@ -9,7 +9,7 @@
 ----------------------------------------------------------------------------------------------------------
 
 --[=[
-    @method get
+    @function get
     @within prop
 
     @param ... any
@@ -19,7 +19,7 @@
 ]=]
 
 --[=[
-    @method set
+    @function set
     @within prop
 
     @param new_value T
@@ -39,6 +39,7 @@
 
 --[=[
     @prop changed var_signal
+    @readonly
     @within prop
     
     A signal that fires when the property value changes.
@@ -89,6 +90,7 @@
 
 --[=[
     @prop immutable immutable_prop<T>
+    @readonly
     @within prop
 
     An interface for managing an immutable property. 
@@ -97,6 +99,7 @@
 
 --[=[
     @prop public public_prop<T>
+    @readonly
     @within prop
 
     An interface for managing a public property. 
@@ -121,21 +124,23 @@
 ]=]
 
 --[=[
-    @type typecheck<T> (value: T) -> (boolean, string?)
+    @type typecheck (value: T) -> (boolean, string?)
     @within prop
 
     A function that can be used to validate the type of a value. Returns a boolean and an optional error message.
 ]=]
 
 --[=[
-    @type get<T> (...any) -> T
+    @type get (...any) -> T
+    @private
     @within prop
 
     A function that returns the current value of a property.
 ]=]
 
 --[=[
-    @type set<T> (new_value: T, ...any) -> ()
+    @type set (new_value: T, ...any) -> ()
+    @private
     @within prop
 
     A function that sets the value of a property to a new value.
@@ -157,16 +162,24 @@
     An object that contains the initial value, type validator, type name, middleware, signal security, and typestrict settings for a property.
     The `init` field is required, while the rest are optional.
 
-    ## Fields
-    init - The initial value of the property.
-    type_validator - A function that validates the type of the property value. Only runs if `typestrict` is set to `true`. Optional.
-    type_name - The name of the type of the property. Do NOT provide this field with a custom type name unless you have a custom type validator, as the validator will always return false. Optional.
-    middleware - A table that contains initial middleware for the `get` and `set` accessors of a property. Optional.
-    signal_security - The security level of the signal. Refer to the `signal_security` property of the `prop` class for more information. Optional.
+    ### Fields
+    #### `init`
+    The initial value of the property.
+    #### `type_validator`
+    A function that validates the type of the property value. Only runs if `typestrict` is set to `true`. Optional.
+    #### `type_name`
+    The name of the type of the property. Do NOT provide this field with a custom type name unless you have a custom type validator, as the validator will always return false. Optional.
+    #### `typestrict`
+    A boolean value that determines whether the property should be type-checked before setting a new value. Optional.
+    #### `middleware`
+    A table that contains initial middleware for the `get` and `set` accessors of a property. Optional.
+    #### `signal_security`
+    The security level of the signal. Optional.
+    Refer to the `signal_security` property of the `prop` class for more information.
 ]=]
 
 --[=[
-    @interface prop_middleware<T>
+    @interface prop_middleware
     @within prop
 
     @field get middleware<T>
@@ -176,7 +189,7 @@
 ]=]
 
 --[=[
-    @interface prop_middleware_info<T>
+    @interface prop_middleware_info
     @within prop
 
     @field get transformer_list<T>?

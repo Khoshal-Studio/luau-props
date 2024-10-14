@@ -7,7 +7,7 @@
 -------------------------------------------------------------------------------------------------------
 
 --[=[
-    @method get
+    @function get
     @within public_prop
 
     @param ... any
@@ -17,7 +17,7 @@
 ]=]
 
 --[=[
-    @method set
+    @function set
     @within public_prop
 
     @param new_value T
@@ -31,6 +31,8 @@
 --[=[
     @prop changed var_signal
     @within immutable_prop
+
+    A signal that fires when the property value changes.
 ]=]
 
 -------------------------------------------------------------------------------------------------------
